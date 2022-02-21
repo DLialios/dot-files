@@ -1,0 +1,3 @@
+slstatus &
+picom &
+exec dwm

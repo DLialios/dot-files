@@ -1,0 +1,5 @@
+[user]
+	name = Dimitri
+	email = lialios.dimitri@gmail.com
+[core]
+	editor = nvim
