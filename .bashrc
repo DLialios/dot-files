@@ -68,7 +68,7 @@ alias gitdot='git --git-dir=$HOME/.dotrepo/ --work-tree=$HOME'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
-alias mpvsync='syncplay --no-gui --no-store --player-path /usr/bin/mpv -a $SYNCPLAY_SERVER -n $USERNAME -r $SYNCPLAY_ROOM'
+alias mpvsync='syncplay --no-gui --no-store --player-path /usr/bin/mpv -a $SYNCPLAY_SERVER -n $USER -r $SYNCPLAY_ROOM'
 alias mpvseedbox='f(){ unset -f f; mpv $(setAuthHeader "$@"); }; f'
 
 alias send7z='7z a -mhe=on -p$(keepassxc-cli generate -L 256 | tee /dev/tty) -mx0 data.7z'
