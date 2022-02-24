@@ -1,0 +1,9 @@
+.include /etc/pulse/default.pa
+load-module module-remap-source source_name=line_1 master=alsa_input.usb-Burr-Brown_from_TI_USB_Audio_CODEC-00.analog-stereo-input master_channel_map=front-left channel_map=mono
+update-source-proplist line_1 device.description='Line 1: PCM2902 Audio Codec Analog Stereo'
+update-source-proplist line_1 device.icon_name='audio-card-usb'
+load-module module-null-sink sink_name=obs_sink
+update-sink-proplist obs_sink device.description='OBS Sink'
+update-source-proplist obs_sink.monitor device.description='Monitor of OBS Sink'
+update-source-proplist obs_sink.monitor device.icon_name='audio-card-usb'
+load-module module-loopback source=obs_sink.monitor sink=alsa_output.usb-Burr-Brown_from_TI_USB_Audio_CODEC-00.analog-stereo-output latency_msec=40
