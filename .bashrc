@@ -65,6 +65,8 @@ sboxget() {
 ################################################################
 alias gitdot='git --git-dir=$HOME/.dotrepo/ --work-tree=$HOME'
 
+alias vpnc="sudo bash -c 'openvpn --config $HOME/.client.ovpn'"
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
