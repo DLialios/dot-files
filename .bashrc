@@ -9,15 +9,16 @@ set -o vi
 ################################
 export SUDO_EDITOR=nvim
 ################################
-br() {
-    (($1 < 10)) && return
-    sudo bash -c "echo -n $1 > /sys/class/backlight/intel_backlight/brightness"
-}
-################################
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-alias vpnc="sudo bash -c 'openvpn --config $HOME/.client.ovpn'"
+
 alias gitdot='git --git-dir=$HOME/.dotrepo/ --work-tree=$HOME'
+
+alias vpnc="sudo bash -c 'openvpn --config $HOME/.client.ovpn'"
+
+alias weather='curl -sS wttr.in | head -n-2'
+
+alias webcam='mpv av://v4l2:/dev/video0 --profile=low-latency --untimed --no-osc'
 ################################
 CYAN="\[$(tput setaf 6)\]"
 RESET="\[$(tput sgr0)\]"
