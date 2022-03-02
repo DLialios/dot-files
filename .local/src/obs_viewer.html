@@ -28,7 +28,7 @@
             <video autoplay="true" muted="true" id="videoElement"> </video>
         </div>
         <script>
-            navigator.mediaDevices.getUserMedia({ audio: { optional: [ {echoCancellation: false} ] }, video: true })
+            navigator.mediaDevices.getUserMedia({ audio: { advanced: [ {echoCancellation: false, autoGainControl: false, noiseSuppression: false} ] }, video: true })
                 .then(function (stream) {
                                 let audioContext = new AudioContext();
                                 let mediaStreamSource = audioContext.createMediaStreamSource(stream);
