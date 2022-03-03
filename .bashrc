@@ -84,7 +84,7 @@ alias qbittnovpn="sed -i '/Connection\\\Interface=/s/tun0/enp12s0/;/Connection\\
 alias battlenet='env WINEESYNC=1 WINEPREFIX=$HOME/wine_prefixes/battlenet WINEDLLOVERRIDES=$WINEDLLOVERRIDES\;nvapi,nvapi64=d WINEDEBUG=-all DXVK_LOG_LEVEL=none wine $HOME/wine_prefixes/battlenet/drive_c/Program\ Files\ \(x86\)/Battle.net/Battle.net\ Launcher.exe'
 alias killbattlenet='env WINEPREFIX=$HOME/wine_prefixes/battlenet wineserver -k'
 
-alias fixwin="wmctrl -r 'obs_viewer - Google Chrome' -e 0,0,0,1314,890"
+alias fixwin="wmctrl -r 'obs_viewer - Google Chrome' -e 0,100,100,1280,843"
 alias fixwins='wmctrl -e 0,0,0,1280,720 -r'
 ################################################################
 
