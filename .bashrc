@@ -8,7 +8,7 @@
 source $HOME/.priv
 set -o vi
 ################################################################
-export PATH=$PATH:$HOME/.local/bin:/opt/cuda/bin
+export PATH=$PATH:$HOME/.local/bin
 export SUDO_EDITOR=nvim
 export WINEDLLOVERRIDES=winemenubuilder.exe=d
 ################################################################
