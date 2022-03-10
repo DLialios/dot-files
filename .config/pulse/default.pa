@@ -20,3 +20,6 @@ update-source-proplist inclusion_sink.monitor device.icon_name='audio-card-usb'
 # we must hear both exclusion and inclusion
 load-module module-loopback source=exclusion_sink.monitor sink=alsa_output.usb-Burr-Brown_from_TI_USB_Audio_CODEC-00.analog-stereo-output latency_msec=40
 load-module module-loopback source=inclusion_sink.monitor sink=alsa_output.usb-Burr-Brown_from_TI_USB_Audio_CODEC-00.analog-stereo-output latency_msec=40
+
+# allow access other users in our group
+load-module module-native-protocol-unix auth-group-enable=1 auth-group=dimitri socket=/tmp/pulse-socket
