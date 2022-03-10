@@ -65,6 +65,8 @@ sboxget() {
 ################################################################
 alias gitdot='git --git-dir=$HOME/.dotrepo/ --work-tree=$HOME'
 
+alias loginother='chmod 640 $HOME/.Xauthority; machinectl login'
+
 alias vpnc="sudo bash -c 'openvpn --config $HOME/.client.ovpn'"
 
 alias weather='curl -sS wttr.in | head -n-2'
