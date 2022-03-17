@@ -9,6 +9,12 @@ set -o vi
 ################################
 export SUDO_EDITOR=nvim
 ################################
+
+lookfor() {
+    fd -tf -X grep --color=always -ni "$1" | sed -e "s#$(echo -ne '\E\[36m\E\[K:\E\[m\E\[K')\s*#$(tput setaf 6):$(tput sgr0)#g2"
+}
+
+################################
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
