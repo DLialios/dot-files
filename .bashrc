@@ -13,6 +13,10 @@ export SUDO_EDITOR=nvim
 export WINEDLLOVERRIDES=winemenubuilder.exe=d
 ################################################################
 
+lookfor() {
+    fd -tf -X grep --color=always -ni "$1" | sed -e "s#$(echo -ne '\E\[36m\E\[K:\E\[m\E\[K')\s*#$(tput setaf 6):$(tput sgr0)#g2"
+}
+
 setAuthHeader() {
     local p1=$1
     local uri=${p1/'https://'/$URI_WITH_CRED}
