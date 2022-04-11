@@ -88,6 +88,8 @@ alias killbattlenet='env WINEPREFIX=$HOME/wine_prefixes/battlenet wineserver -k'
 
 alias fixwin="wmctrl -r 'obs_viewer - Google Chrome' -e 0,100,100,1280,843"
 alias fixwins='wmctrl -e 0,0,0,1280,720 -r'
+
+alias steam='echo no'
 ################################################################
 
 CYAN="\[$(tput setaf 6)\]"
