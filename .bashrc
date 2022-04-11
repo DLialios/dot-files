@@ -7,6 +7,7 @@
 
 set -o vi
 ################################
+export PATH=$PATH:$HOME/.local/bin
 export SUDO_EDITOR=nvim
 ################################
 
