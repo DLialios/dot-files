@@ -42,8 +42,9 @@ vim.api.nvim_set_keymap('n', '<C-p>', "<cmd>lua require('fzf-lua').files()<CR>",
 
 -- Treesitter setup
 require('nvim-treesitter.configs').setup {
-    ensure_installed = 'maintained',
-    highlight = { enable = true }
+    ensure_installed = 'all',
+    highlight = { enable = true },
+    indent = { enable = true }
 }
 set.foldmethod = 'expr'
 set.foldexpr = 'nvim_treesitter#foldexpr()'
