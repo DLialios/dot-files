@@ -10,7 +10,11 @@ set -o vi
 export PATH=$PATH:$HOME/.local/bin
 export SUDO_EDITOR=nvim
 ################################
+alias vi='nvim'
+alias vim='nvim'
+
 alias ls='ls --color=auto'
+alias ll='ls -lah'
 alias grep='grep --color=auto'
 
 alias gitdot='git --git-dir=$HOME/.dotrepo/ --work-tree=$HOME'
