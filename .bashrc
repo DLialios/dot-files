@@ -63,6 +63,9 @@ sboxget() {
 }
 
 ################################################################
+alias vi='nvim'
+alias vim='nvim'
+
 alias gitdot='git --git-dir=$HOME/.dotrepo/ --work-tree=$HOME'
 
 alias loginother='chmod 640 $HOME/.Xauthority; machinectl login'
@@ -75,6 +78,7 @@ alias webcam='mpv av://v4l2:/dev/video0 --profile=low-latency --untimed --no-osc
 alias stream='ffmpeg -f x11grab -video_size 1920x1080 -framerate 30 -i :0.0 -pix_fmt yuv420p -f v4l2 /dev/video2'
 
 alias ls='ls --color=auto'
+alias ll='ls -lah'
 alias grep='grep --color=auto'
 
 alias mpvsync='syncplay --no-gui --no-store --player-path /usr/bin/mpv -a $SYNCPLAY_SERVER -n $USER -r $SYNCPLAY_ROOM'
