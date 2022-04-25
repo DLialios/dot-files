@@ -3,12 +3,15 @@ local set = vim.opt
 set.number = true
 set.relativenumber = true
 
+set.cc = '80'
+vim.api.nvim_exec([[hi ColorColumn ctermbg=darkgrey guibg=darkgrey]],false)
+
 set.ffs = 'unix'
 set.lcs = 'eol:$,tab:>>,space:_,nbsp:+'
 
-set.tabstop = 4
+set.softtabstop = 4
 set.shiftwidth = 4
-set.expandtab = true
+set.expandtab = false
 
 -- Packer setup
 require('packer').startup(function()
