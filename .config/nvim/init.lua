@@ -4,7 +4,7 @@ set.number = true
 set.relativenumber = true
 
 set.cc = '80'
-vim.api.nvim_exec([[hi ColorColumn ctermbg=darkgrey guibg=darkgrey]],false)
+vim.api.nvim_exec([[hi ColorColumn ctermbg=234 guibg=234]],false)
 
 set.ffs = 'unix'
 set.lcs = 'eol:$,tab:>>,space:_,nbsp:+'
@@ -17,6 +17,9 @@ set.expandtab = false
 require('packer').startup(function()
     -- Plugin manager
     use 'wbthomason/packer.nvim'
+
+    -- Statusline
+    use 'nvim-lualine/lualine.nvim'
 
     -- Syntax highlighting
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -34,6 +37,16 @@ require('packer').startup(function()
     -- Fuzzy finder (requires fzf and fd)
     use 'ibhagwan/fzf-lua'
 end)
+
+-- Statusline setup
+require('lualine').setup {
+    options = {
+	icons_enabled = false,
+	theme = 'powerline_dark',
+	section_separators = '',
+	component_separators = ''
+    }
+}
 
 -- FZF setup
 local fd_opts = '--color=never --type f --hidden --follow ' ..
