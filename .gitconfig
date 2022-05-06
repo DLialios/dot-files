@@ -1,5 +1,9 @@
 [user]
-	name = Dimitri
-	email = lialios.dimitri@gmail.com
+    name   = Dimitri
+    email  = lialios.dimitri@gmail.com
 [core]
-	editor = nvim
+    editor = nvim
+[pager]
+    log    = perl /usr/share/git/diff-highlight/diff-highlight | less
+    show   = perl /usr/share/git/diff-highlight/diff-highlight | less
+    diff   = perl /usr/share/git/diff-highlight/diff-highlight | less
