@@ -67,10 +67,13 @@ alias vi='nvim'
 alias vim='nvim'
 
 alias gitdot='git --git-dir=$HOME/.dotrepo/ --work-tree=$HOME'
+alias gitdotg='gitdot log --graph --oneline --all'
+alias gitg='git log --graph --oneline --all'
 
 alias loginother='chmod 640 $HOME/.Xauthority; machinectl login'
 
 alias vpnc="sudo bash -c 'openvpn --config $HOME/.client.ovpn'"
+# alias rdp="xfreerdp /u:'' /p:'' /v:0.0.0.0:0 /drive:vol1,$HOME/tmp /f /cert-ignore +clipboard -grab-keyboard"
 
 alias weather='curl -sS wttr.in | head -n-2'
 
@@ -85,10 +88,6 @@ alias mpvsync='syncplay --no-gui --no-store --player-path /usr/bin/mpv -a $SYNCP
 alias mpvseedbox='f(){ unset -f f; mpv $(setAuthHeader "$@"); }; f'
 
 alias send7z='7z a -mhe=on -p$(keepassxc-cli generate -L 256 | tee /dev/tty) -mx0 data.7z'
-alias qbittnovpn="sed -i '/Connection\\\Interface=/s/tun0/enp12s0/;/Connection\\\InterfaceName=/s/tun0/enp12s0/;/Session\\\Interface=/s/tun0/enp12s0/;/Session\\\InterfaceName=/s/tun0/enp12s0/' $HOME/.config/qBittorrent/qBittorrent.conf && qbittorrent ; sed -i '/Connection\\\Interface=/s/enp12s0/tun0/;/Connection\\\InterfaceName=/s/enp12s0/tun0/;/Session\\\Interface=/s/enp12s0/tun0/;/Session\\\InterfaceName=/s/enp12s0/tun0/' $HOME/.config/qBittorrent/qBittorrent.conf"
-
-alias battlenet='env WINEESYNC=1 WINEPREFIX=$HOME/wine_prefixes/battlenet WINEDLLOVERRIDES=$WINEDLLOVERRIDES\;nvapi,nvapi64=d WINEDEBUG=-all DXVK_LOG_LEVEL=none wine $HOME/wine_prefixes/battlenet/drive_c/Program\ Files\ \(x86\)/Battle.net/Battle.net\ Launcher.exe'
-alias killbattlenet='env WINEPREFIX=$HOME/wine_prefixes/battlenet wineserver -k'
 
 alias fixwin="wmctrl -r 'obs_viewer - Google Chrome' -e 0,100,100,1280,843"
 alias fixwins='wmctrl -e 0,0,0,1280,720 -r'
