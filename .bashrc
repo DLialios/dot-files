@@ -89,7 +89,7 @@ alias mpvseedbox='f(){ unset -f f; mpv $(setAuthHeader "$@"); }; f'
 
 alias send7z='7z a -mhe=on -p$(keepassxc-cli generate -L 256 | tee /dev/tty) -mx0 data.7z'
 
-alias fixwin="wmctrl -r 'obs_viewer - Google Chrome' -e 0,100,100,1280,843"
+alias fixwin="wmctrl -r 'obs_viewer - Google Chrome' -e 0,100,100,1280,848"
 alias fixwins='wmctrl -e 0,0,0,1280,720 -r'
 
 alias steam='echo no'
