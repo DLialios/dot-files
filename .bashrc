@@ -11,6 +11,8 @@ set -o vi
 export PATH=$PATH:$HOME/.local/bin
 export SUDO_EDITOR=nvim
 export WINEDLLOVERRIDES=winemenubuilder.exe=d
+export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=gasp'
+export _JAVA_AWT_WM_NONREPARENTING=1
 ################################################################
 
 makeBatchScript() {
@@ -60,7 +62,7 @@ alias vi='nvim'
 alias vim='vi'
 
 alias ll='ls -lah'
-alias f='fd -tf -u | xargs -P 4 egrep -n'
+alias f='fd -tf -u | xargs -P 4 egrep --color=auto -n'
 
 alias gitdot='git --git-dir=$HOME/.dotrepo/ --work-tree=$HOME'
 alias gitdotg='gitdot log --graph --oneline --all'
