@@ -1,0 +1,15 @@
+CompileFlags:
+  Add: [
+    -Wno-unknown-pragmas,
+    -isystem,
+    C:/Users/dimitri/.platformio/packages/toolchain-xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include-fixed,
+    -isystem,
+    C:/Users/dimitri/.platformio/packages/toolchain-xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/include,
+  ]
+  Remove: [
+    -mlongcalls,
+    -fno-shrink-wrap,
+    -fno-tree-switch-conversion,
+    -fstrict-volatile-bitfields,
+  ]
+

@@ -1,0 +1,5 @@
+[wsl2]
+memory=30GB
+swap=8GB
+swapFile=D:\\vhdx\\wsl-swap.vhdx
+networkingMode=mirrored
