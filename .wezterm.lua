@@ -7,9 +7,6 @@ config.disable_default_key_bindings = true
 config.font = wezterm.font('Fira Code')
 config.font_size = 12
 
-config.warn_about_missing_glyphs = false
-config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-
 config.enable_scroll_bar = true
 config.scrollback_lines = 10000
 

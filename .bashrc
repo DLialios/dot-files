@@ -13,7 +13,7 @@ alias ll='ls -lah'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 
-alias gitdot='git --git-dir=$HOME/.dotrepo/ --work-tree=$HOME'
+alias gitdot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias gitdotg='gitdot log --graph --oneline --all'
 alias gitdotd='gitdot difftool --dir-diff'
 
