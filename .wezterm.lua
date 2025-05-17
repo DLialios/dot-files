@@ -4,8 +4,10 @@ local act = wezterm.action
 
 config.disable_default_key_bindings = true
 
+config.xcursor_theme = 'Yaru'
+
 config.font = wezterm.font('Fira Code')
-config.font_size = 12
+config.font_size = 16
 
 config.enable_scroll_bar = true
 config.scrollback_lines = 10000

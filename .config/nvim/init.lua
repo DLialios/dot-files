@@ -30,14 +30,6 @@ end
 --------------------------------------------------------------------------------
 o.background = 'dark'
 o.termguicolors = true
-o.tabstop = 4
-o.softtabstop = 4   -- vim-sleuth overrides this
-o.shiftwidth = 4    -- vim-sleuth overrides this
-o.expandtab = true  -- vim-sleuth overrides this
-o.autoindent = true
-o.breakindent = true
-o.smarttab = true
-o.smartindent = true
 o.number = true
 o.relativenumber = true
 o.scrolloff = 4
@@ -50,14 +42,13 @@ o.splitright = true
 o.splitbelow = true
 o.list = false
 o.listchars = { eol = '$', tab = '>>', space = '_', trail = '·', nbsp = '␣' }
-o.fileformats = 'dos,unix'
+o.fileformats = 'unix,dos'
 o.foldmethod = 'expr'
 o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 o.foldenable = true
 o.foldlevel = 99
 o.colorcolumn = '80'
 o.signcolumn = 'yes'
-o.inccommand = 'nosplit'
 o.showmode = false
 o.completeopt = { 'menu' }
 o.mouse = 'a'
@@ -77,8 +68,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.cmd [[
-  aunmenu PopUp.How-to\ disable\ mouse
-  aunmenu PopUp.-1-
+aunmenu PopUp.How-to\ disable\ mouse
+aunmenu PopUp.-1-
 ]]
 
 
@@ -99,34 +90,10 @@ vim.call('plug#end')
 
 -- Plugin Config
 --------------------------------------------------------------------------------
-require('lualine').setup { 
-    options = { 
-        theme = 'tokyonight-storm', 
-    } 
-}
-
-require('fzf-lua').setup {
-    grep = {
-        rg_opts = 
-        '--hidden ' ..
-        '--no-ignore-vcs ' .. 
-        '--glob "!.svn" ' ..
-        '--column ' ..
-        '--line-number ' ..
-        '--no-heading ' ..
-        '--color=always ' ..
-        '--smart-case ' ..
-        '--max-columns=4096 -e',
-    }
-}
-
-require('nvim-web-devicons').setup { 
-}
-
-vim.cmd('syntax off')
-vim.cmd [[
-  colorscheme tokyonight-storm
-]]
+require('lualine').setup { options = { theme = 'tokyonight-storm', } }
+require('fzf-lua').setup { }
+require('nvim-web-devicons').setup { }
+vim.cmd [[ colorscheme tokyonight-storm ]]
 require('nvim-treesitter.configs').setup {
     ensure_installed = {
         'c', 'cpp', 'python', 'lua', 'vim', 'vimdoc', 'query',
@@ -155,7 +122,7 @@ map('n', '<Leader>i', '<cmd>set list!<CR>')
 map('n', '<Leader>y', '<cmd>set relativenumber!<CR>')
 map('n', '<Leader>o', "<cmd>lua require('fzf-lua').buffers()<CR>")
 map('n', '<Leader>p', "<cmd>lua require('fzf-lua').files()<CR>")
-map('n', '<Leader>s', "<cmd>lua require('fzf-lua').live_grep_glob()<CR>")
+map('n', '<Leader>s', "<cmd>lua require('fzf-lua').live_grep()<CR>")
 map('n', '<Leader>*', "<cmd>lua require('fzf-lua').grep_cword()<CR>")
 map('n', '<Leader>h', '<cmd>cfirst<CR>')
 map('n', '<Leader>j', '<cmd>cn<CR>')
@@ -176,7 +143,6 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gH', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('i', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-
     buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
@@ -185,13 +151,18 @@ end
 
 -- LSP
 --------------------------------------------------------------------------------
-vim.lsp.enable('clangd')
 vim.lsp.set_log_level('OFF')
+
+vim.lsp.enable('clangd')
 vim.lsp.config('clangd', {
     cmd = {
         'clangd',
-        '--query-driver=C:\\Users\\dimitri\\.platformio\\packages\\toolchain-xtensa-esp-elf\\bin\\xtensa-esp32s3-elf-*.exe'
+        '--background-index'
     },
     on_attach = on_attach
 })
 
+vim.lsp.enable('pyright')
+vim.lsp.config('pyright', {
+    on_attach = on_attach
+})
