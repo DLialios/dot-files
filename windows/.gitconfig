@@ -5,6 +5,7 @@
 	editor = nvim
 [core]
 	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+	autocrlf = input
 [diff]
 	tool = meld
 [difftool]
