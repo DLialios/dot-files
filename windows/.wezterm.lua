@@ -3,15 +3,14 @@ local config = wezterm.config_builder()
 local act = wezterm.action
 
 config.front_end = 'WebGpu'
-
+config.enable_tab_bar = false
+config.hide_mouse_cursor_when_typing = false
 config.disable_default_key_bindings = true
-
 config.font = wezterm.font('Fira Code')
 config.font_size = 12
-
+config.warn_about_missing_glyphs = false
 config.enable_scroll_bar = true
 config.scrollback_lines = 10000
-
 config.initial_cols = 128
 config.initial_rows = 32
 
@@ -47,11 +46,29 @@ config.keys = {
     { key = 'K', mods = 'CTRL', action = act.ActivatePaneDirection('Up') },
     { key = 'L', mods = 'CTRL', action = act.ActivatePaneDirection('Right') },
 
-    { key = 'LeftArrow', mods = 'CTRL|SHIFT', action = act.AdjustPaneSize { 'Left', 2 } },
-    { key = 'RightArrow', mods = 'CTRL|SHIFT', action = act.AdjustPaneSize { 'Right', 2 } },
-    { key = 'UpArrow', mods = 'CTRL|SHIFT', action = act.AdjustPaneSize { 'Up', 2 } },
-    { key = 'DownArrow', mods = 'CTRL|SHIFT', action = act.AdjustPaneSize { 'Down', 2 } },
+    { key = 'H', mods = 'CTRL|SHIFT|ALT', action = act.AdjustPaneSize { 'Left', 2 } },
+    { key = 'J', mods = 'CTRL|SHIFT|ALT', action = act.AdjustPaneSize { 'Down', 2 } },
+    { key = 'K', mods = 'CTRL|SHIFT|ALT', action = act.AdjustPaneSize { 'Up', 2 } },
+    { key = 'L', mods = 'CTRL|SHIFT|ALT', action = act.AdjustPaneSize { 'Right', 2 } },
 }
+
+-- vi-style scrolling in Copy Mode
+local copy_mode = nil
+if wezterm.gui then
+    copy_mode = wezterm.gui.default_key_tables().copy_mode
+    table.insert(
+        copy_mode,
+        { key = 'y', mods = 'CTRL', action = wezterm.action.ScrollByLine(-1) }
+    )
+    table.insert(
+        copy_mode,
+        { key = 'e', mods = 'CTRL', action = wezterm.action.ScrollByLine(1) }
+    )
+
+    config.key_tables = {
+        copy_mode = copy_mode
+    }
+end
 
 
 return config
