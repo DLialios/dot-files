@@ -123,6 +123,7 @@ map('n', '<Leader>y', '<cmd>set relativenumber!<CR>')
 map('n', '<Leader>o', "<cmd>lua require('fzf-lua').buffers()<CR>")
 map('n', '<Leader>p', "<cmd>lua require('fzf-lua').files()<CR>")
 map('n', '<Leader>s', "<cmd>lua require('fzf-lua').live_grep()<CR>")
+map('n', '<Leader>d', "<cmd>lua require('fzf-lua').tags_live_grep()<CR>")
 map('n', '<Leader>*', "<cmd>lua require('fzf-lua').grep_cword()<CR>")
 map('n', '<Leader>h', '<cmd>cfirst<CR>')
 map('n', '<Leader>j', '<cmd>cn<CR>')
@@ -153,16 +154,11 @@ end
 --------------------------------------------------------------------------------
 vim.lsp.set_log_level('OFF')
 
-vim.lsp.enable('clangd')
+-- vim.lsp.enable('clangd')
 vim.lsp.config('clangd', {
     cmd = {
         'clangd',
-        '--background-index'
+        '--background-index',
     },
-    on_attach = on_attach
-})
-
-vim.lsp.enable('pyright')
-vim.lsp.config('pyright', {
     on_attach = on_attach
 })
