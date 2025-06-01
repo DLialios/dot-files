@@ -78,20 +78,32 @@ aunmenu PopUp.-1-
 local Plug = vim.fn['plug#']
 
 vim.call('plug#begin')
-Plug('tpope/vim-sleuth')
-Plug('nvim-lualine/lualine.nvim')
-Plug('ibhagwan/fzf-lua', { ['branch'] = 'main' })
+Plug('dhananjaylatkar/cscope_maps.nvim')
+Plug('nvim-lua/plenary.nvim')
 Plug('nvim-tree/nvim-web-devicons')
 Plug('folke/tokyonight.nvim')
+Plug('tpope/vim-sleuth')
+Plug('nvim-lualine/lualine.nvim')
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
+Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.8' })
+Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
 Plug('neovim/nvim-lspconfig')
 vim.call('plug#end')
 
 
 -- Plugin Config
 --------------------------------------------------------------------------------
+require("cscope_maps").setup {
+    disable_maps = true,
+    cscope = {
+        exec = 'cscope',
+        picker = 'telescope',
+        skip_picker_for_single_result = true,
+    }
+}
+require('telescope').setup { }
+require('telescope').load_extension('fzf')
 require('lualine').setup { options = { theme = 'tokyonight-storm', } }
-require('fzf-lua').setup { }
 require('nvim-web-devicons').setup { }
 vim.cmd [[ colorscheme tokyonight-storm ]]
 require('nvim-treesitter.configs').setup {
@@ -115,21 +127,42 @@ require('nvim-treesitter.configs').setup {
 --------------------------------------------------------------------------------
 map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 map('t', '<Esc><Esc>', '<C-\\><C-n>')
+
 map('n', '<Leader>e', '<cmd>e $MYVIMRC<CR>')
 map('n', '<Leader>t', '<cmd>tabnew<CR>')
-map('n', '<Leader>u', '<cmd>lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>')
-map('n', '<Leader>i', '<cmd>set list!<CR>')
-map('n', '<Leader>y', '<cmd>set relativenumber!<CR>')
-map('n', '<Leader>o', "<cmd>lua require('fzf-lua').buffers()<CR>")
-map('n', '<Leader>p', "<cmd>lua require('fzf-lua').files()<CR>")
-map('n', '<Leader>s', "<cmd>lua require('fzf-lua').live_grep()<CR>")
-map('n', '<Leader>d', "<cmd>lua require('fzf-lua').tags_live_grep()<CR>")
-map('n', '<Leader>*', "<cmd>lua require('fzf-lua').grep_cword()<CR>")
+
+map('n', '<Leader>p', "<cmd>lua require('telescope.builtin').find_files()<CR>")
+map('n', '<Leader>P',
+"<cmd>lua require('telescope.builtin').find_files({ " ..
+"hidden = true, no_ignore = true, no_ignore_parent = true })<CR>")
+
+map('n', '<Leader>f', "<cmd>lua require('telescope.builtin').grep_string()<CR>")
+map('n', '<Leader>F',
+"<cmd>lua require('telescope.builtin').grep_string({ " ..
+"additional_args = function() " ..
+    "return {'--hidden','--no-ignore-vcs'} end })<CR>"
+)
+
+map('n', '<Leader>s', "<cmd>lua require('telescope.builtin').live_grep()<CR>")
+map('n', '<Leader>S',
+"<cmd>lua require('telescope.builtin').live_grep({ " ..
+"additional_args = function() " ..
+    "return {'--hidden','--no-ignore-vcs'} end })<CR>"
+)
+
+map('n', '<Leader>b', "<cmd>lua require('telescope.builtin').buffers()<CR>")
+map('n', '<Leader>a', "<cmd>lua require('telescope.builtin').tags()<CR>")
+
 map('n', '<Leader>h', '<cmd>cfirst<CR>')
 map('n', '<Leader>j', '<cmd>cn<CR>')
 map('n', '<Leader>k', '<cmd>cp<CR>')
 map('n', '<Leader>l', '<cmd>clast<CR>')
 map('n', '<Leader>g', '<cmd>cclose<CR>')
+
+map('n', 'gd', '<cmd>Cstag<CR>')
+map('n', 'gH', '<cmd>Cscope f s<CR>')
+map('n', 'gi', '<cmd>CsStackView open up<CR>')
+map('n', 'go', '<cmd>CsStackView open down<CR>')
 
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -138,13 +171,13 @@ local on_attach = function(client, bufnr)
     vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
     vim.diagnostic.enable(true, { bufnr = bufnr })
 
-    buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', 'gd', "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", opts)
     buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gH', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    buf_set_keymap('n', 'gH', "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
     buf_set_keymap('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('i', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+    buf_set_keymap('n', '<Leader>e', "<cmd>lua require('telescope.builtin').diagnostics({ bufnr = 0 })<CR>", opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 end
