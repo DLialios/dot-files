@@ -3,6 +3,7 @@ local config = wezterm.config_builder()
 local act = wezterm.action
 
 config.front_end = 'WebGpu'
+config.mux_enable_ssh_agent = false
 config.enable_tab_bar = false
 config.hide_mouse_cursor_when_typing = false
 config.disable_default_key_bindings = true
