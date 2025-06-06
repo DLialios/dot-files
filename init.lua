@@ -78,7 +78,6 @@ aunmenu PopUp.-1-
 local Plug = vim.fn['plug#']
 
 vim.call('plug#begin')
-Plug('dhananjaylatkar/cscope_maps.nvim')
 Plug('nvim-lua/plenary.nvim')
 Plug('nvim-tree/nvim-web-devicons')
 Plug('folke/tokyonight.nvim')
@@ -87,20 +86,12 @@ Plug('nvim-lualine/lualine.nvim')
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.8' })
 Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
-Plug('neovim/nvim-lspconfig')
+-- Plug('neovim/nvim-lspconfig')
 vim.call('plug#end')
 
 
 -- Plugin Config
 --------------------------------------------------------------------------------
-require("cscope_maps").setup {
-    disable_maps = true,
-    cscope = {
-        exec = 'cscope',
-        picker = 'telescope',
-        skip_picker_for_single_result = true,
-    }
-}
 require('telescope').setup { }
 require('telescope').load_extension('fzf')
 require('lualine').setup { options = { theme = 'tokyonight-storm', } }
@@ -130,6 +121,13 @@ map('t', '<Esc><Esc>', '<C-\\><C-n>')
 
 map('n', '<Leader>e', '<cmd>e $MYVIMRC<CR>')
 map('n', '<Leader>t', '<cmd>tabnew<CR>')
+map('n', '<Leader>d', '<C-]>')
+
+map('n', '<Leader>h', '<cmd>cfirst<CR>')
+map('n', '<Leader>j', '<cmd>cn<CR>')
+map('n', '<Leader>k', '<cmd>cp<CR>')
+map('n', '<Leader>l', '<cmd>clast<CR>')
+map('n', '<Leader>g', '<cmd>cclose<CR>')
 
 map('n', '<Leader>p', "<cmd>lua require('telescope.builtin').find_files()<CR>")
 map('n', '<Leader>P',
@@ -153,45 +151,35 @@ map('n', '<Leader>S',
 map('n', '<Leader>b', "<cmd>lua require('telescope.builtin').buffers()<CR>")
 map('n', '<Leader>a', "<cmd>lua require('telescope.builtin').tags()<CR>")
 
-map('n', '<Leader>h', '<cmd>cfirst<CR>')
-map('n', '<Leader>j', '<cmd>cn<CR>')
-map('n', '<Leader>k', '<cmd>cp<CR>')
-map('n', '<Leader>l', '<cmd>clast<CR>')
-map('n', '<Leader>g', '<cmd>cclose<CR>')
-
-map('n', 'gd', '<cmd>Cstag<CR>')
-map('n', 'gH', '<cmd>Cscope f s<CR>')
-map('n', 'gi', '<cmd>CsStackView open up<CR>')
-map('n', 'go', '<cmd>CsStackView open down<CR>')
-
-local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local opts = { noremap = true, silent = true }
-
-    vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
-    vim.diagnostic.enable(true, { bufnr = bufnr })
-
-    buf_set_keymap('n', 'gd', "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", opts)
-    buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gH', "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
-    buf_set_keymap('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('i', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', '<Leader>e', "<cmd>lua require('telescope.builtin').diagnostics({ bufnr = 0 })<CR>", opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-end
-
 
 -- LSP
 --------------------------------------------------------------------------------
-vim.lsp.set_log_level('OFF')
 
+-- local on_attach = function(client, bufnr)
+--     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+--     local opts = { noremap = true, silent = true }
+-- 
+--     vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
+--     vim.diagnostic.enable(true, { bufnr = bufnr })
+-- 
+--     buf_set_keymap('n', 'gd', "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", opts)
+--     buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+--     buf_set_keymap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+--     buf_set_keymap('n', 'gH', "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
+--     buf_set_keymap('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+--     buf_set_keymap('i', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+--     buf_set_keymap('n', '<Leader>e', "<cmd>lua require('telescope.builtin').diagnostics({ bufnr = 0 })<CR>", opts)
+--     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+--     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+-- end
+-- 
+-- vim.lsp.set_log_level('OFF')
+-- 
 -- vim.lsp.enable('clangd')
-vim.lsp.config('clangd', {
-    cmd = {
-        'clangd',
-        '--background-index',
-    },
-    on_attach = on_attach
-})
+-- vim.lsp.config('clangd', {
+--     cmd = {
+--         'clangd',
+--         '--background-index',
+--     },
+--     on_attach = on_attach
+-- })
