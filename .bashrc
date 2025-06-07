@@ -3,6 +3,7 @@
 set -o vi
 
 export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$HOME/.cargo/bin
 export SUDO_EDITOR=nvim
 
 eval "$(fzf --bash)"

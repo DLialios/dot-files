@@ -255,6 +255,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
     }
 )
 
+local on_attach = function(client, bufnr)
+    vim.diagnostic.enable(true, { bufnr = bufnr })
+    local function bufmap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    local opts = { noremap = true, silent = true }
+    bufmap('n', 'grh', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    bufmap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+end
+
 
 -- Servers --
 vim.lsp.config('clangd', {
@@ -263,12 +271,18 @@ vim.lsp.config('clangd', {
         '--background-index',
         '--query-driver=C:\\Users\\dimitri\\.platformio\\packages\\toolchain-xtensa-esp-elf\\bin\\xtensa-esp32s3-elf-*.exe'
     },
+    on_attach = on_attach
 })
 
 vim.lsp.config('rust_analyzer', {
     settings = {
         ['rust-analyzer'] = { }
-    }
+    },
+    on_attach = on_attach
+})
+
+vim.lsp.config('pylyzer', {
+    on_attach = on_attach
 })
 
 
@@ -276,4 +290,5 @@ vim.lsp.config('rust_analyzer', {
 vim.lsp.set_log_level('ERROR')
 -- vim.lsp.enable('clangd')
 -- vim.lsp.enable('rust_analyzer')
+vim.lsp.enable('pylyzer')
 
