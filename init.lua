@@ -273,6 +273,7 @@ vim.lsp.config('rust_analyzer', {
 
 
 -- Enable --
+vim.lsp.set_log_level('ERROR')
 -- vim.lsp.enable('clangd')
 -- vim.lsp.enable('rust_analyzer')
 
