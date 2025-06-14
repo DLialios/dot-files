@@ -4,8 +4,18 @@
 [core]
 	editor = nvim
 [diff]
-	tool = meld
+	tool = kdiff3
 [difftool]
 	prompt = false
-[difftool "meld"]
-	cmd = meld "$LOCAL" "$REMOTE"
+	keepBackup = false
+	trustExitCode = false
+[difftool "kdiff3"]
+	path = /usr/bin/kdiff3
+[merge]
+	tool = kdiff3
+[mergetool]
+	prompt = false
+	keepBackup = false
+	keepTemporaries = false
+[mergetool "kdiff3"]
+	path = /usr/bin/kdiff3

@@ -21,6 +21,10 @@ alias gitgf='git log --first-parent --graph --oneline --all'
 alias gitd='git difftool --dir-diff'
 
 alias weather='curl -sS v2.wttr.in | head -n-2'
+alias update-openwebui="docker run \
+--rm \
+-v /var/run/docker.sock:/var/run/docker.sock \
+containrrr/watchtower --run-once --log-level debug open-webui"
 
 CYAN="\[$(tput setaf 6)\]"
 RESET="\[$(tput sgr0)\]"
