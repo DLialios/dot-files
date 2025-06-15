@@ -5,7 +5,7 @@ require('guess-indent').setup {}
 
 vim.opt.background = 'dark'
 vim.opt.termguicolors = true
-vim.cmd('highlight Normal guibg=Black guifg=White')
+vim.cmd('colorscheme slate')
 
 vim.opt.smarttab = true
 vim.opt.smartindent = true
