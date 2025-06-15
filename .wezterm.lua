@@ -5,6 +5,7 @@ local act = wezterm.action
 config.enable_tab_bar = false
 config.hide_mouse_cursor_when_typing = false
 config.disable_default_key_bindings = true
+config.color_scheme = 'Vs Code Dark+ (Gogh)'
 config.font = wezterm.font('Monaspace Neon')
 config.harfbuzz_features = { 'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga' }
 config.font_size = 16

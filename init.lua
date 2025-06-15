@@ -1,11 +1,12 @@
 vim.call('plug#begin')
 vim.fn['plug#']('NMAC427/guess-indent.nvim')
+vim.fn['plug#']('tomasiser/vim-code-dark')
 vim.call('plug#end')
 require('guess-indent').setup {}
 
 vim.opt.background = 'dark'
 vim.opt.termguicolors = true
-vim.cmd('colorscheme slate')
+vim.cmd('colorscheme codedark')
 
 vim.opt.smarttab = true
 vim.opt.smartindent = true
@@ -51,6 +52,7 @@ vim.opt.undolevels = 2000
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
+vim.opt.shortmess = 'I'
 vim.opt.autoread = true
 vim.opt.hidden = true
 vim.opt.fileformats = 'unix,dos'
