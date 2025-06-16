@@ -1,185 +1,166 @@
--- Automatic installation of vim-plug
---------------------------------------------------------------------------------
-local url =
-'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-local curl_cmd = 'silent !curl --create-dirs -fLo'
-
-local data_dir = vim.fn.stdpath('data')
-local script_dir = '/site/autoload/plug.vim'
-local full_path = data_dir .. script_dir
-
-local requires_install = vim.fn.empty(vim.fn.glob(full_path)) == 1
-
-if requires_install then
-    vim.cmd(string.format('%s %s %s', curl_cmd, full_path, url))
-    vim.o.runtimepath = vim.o.runtimepath -- required because of nvim bug
-    vim.cmd('autocmd VimEnter * PlugInstall --sync | source $MYVIMRC')
-end
-
-
--- Aliases
---------------------------------------------------------------------------------
-local global = vim.g
-local o = vim.opt
-local map = function(mode, lhs, rhs)
-    vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true })
-end
-
-
--- Options
---------------------------------------------------------------------------------
-o.background = 'dark'
-o.termguicolors = true
-o.number = true
-o.relativenumber = true
-o.scrolloff = 4
-o.cursorline = true
-o.ignorecase = true
-o.smartcase = true
-o.updatetime = 250
-o.timeoutlen = 300
-o.splitright = true
-o.splitbelow = true
-o.list = false
-o.listchars = { eol = '$', tab = '>>', space = '_', trail = '·', nbsp = '␣' }
-o.fileformats = 'unix,dos'
-o.foldmethod = 'expr'
-o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-o.foldenable = true
-o.foldlevel = 99
-o.colorcolumn = '80'
-o.signcolumn = 'yes'
-o.showmode = false
-o.completeopt = { 'menu' }
-o.mouse = 'a'
-o.undofile = true
-
-
--- Misc
---------------------------------------------------------------------------------
-global.mapleader = ' '
-global.maplocalleader = ' '
-
-vim.api.nvim_create_autocmd('TextYankPost', {
-    group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-})
-
-vim.cmd [[
-aunmenu PopUp.How-to\ disable\ mouse
-aunmenu PopUp.-1-
-]]
-
-
--- Plugins
---------------------------------------------------------------------------------
-local Plug = vim.fn['plug#']
-
 vim.call('plug#begin')
-Plug('nvim-lua/plenary.nvim')
-Plug('nvim-tree/nvim-web-devicons')
-Plug('folke/tokyonight.nvim')
-Plug('tpope/vim-sleuth')
-Plug('nvim-lualine/lualine.nvim')
-Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
-Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.8' })
-Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
--- Plug('neovim/nvim-lspconfig')
+vim.fn['plug#']('junegunn/fzf')
+vim.fn['plug#']('NMAC427/guess-indent.nvim')
+vim.fn['plug#']('tomasiser/vim-code-dark')
 vim.call('plug#end')
+require('guess-indent').setup {}
 
+vim.opt.background = 'dark'
+vim.opt.termguicolors = true
+vim.cmd('colorscheme codedark')
 
--- Plugin Config
---------------------------------------------------------------------------------
-require('telescope').setup { }
-require('telescope').load_extension('fzf')
-require('lualine').setup { options = { theme = 'tokyonight-storm', } }
-require('nvim-web-devicons').setup { }
-vim.cmd [[ colorscheme tokyonight-storm ]]
-require('nvim-treesitter.configs').setup {
-    ensure_installed = {
-        'c', 'cpp', 'python', 'lua', 'vim', 'vimdoc', 'query',
-        'markdown', 'markdown_inline'
-    },
-    sync_install = false,
-    auto_install = true,
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-    indent = {
-        enable = false
-    }
+vim.opt.smarttab = true
+vim.opt.smartindent = true
+vim.opt.smartcase = true
+
+vim.opt.autoindent = true
+vim.opt.ignorecase = true
+
+vim.opt.scrolloff = 4
+vim.opt.sidescrolloff = 4
+
+vim.opt.number = true
+vim.opt.relativenumber = true
+
+vim.opt.colorcolumn = '80'
+vim.opt.signcolumn = 'no'
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = 'number'
+
+vim.opt.laststatus = 2
+vim.opt.ruler = true
+vim.opt.showmode = true
+vim.opt.showcmd = true
+
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
+vim.opt.timeout = true
+vim.opt.ttimeoutlen = 20
+vim.opt.ttimeout = true
+
+vim.opt.list = false
+vim.opt.listchars = {
+    eol = '$',
+    tab = '>>',
+    space = '_',
+    trail = '·',
+    nbsp = '␣'
 }
 
+vim.opt.undofile = true
+vim.opt.undolevels = 2000
 
--- Mappings
---------------------------------------------------------------------------------
-map('n', '<Esc>', '<cmd>nohlsearch<CR>')
-map('t', '<Esc><Esc>', '<C-\\><C-n>')
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+vim.opt.shortmess = 'I'
+vim.opt.autoread = true
+vim.opt.hidden = true
+vim.opt.fileformats = 'unix,dos'
+vim.opt.incsearch = true
+
+vim.cmd [[
+filetype on
+filetype plugin on
+filetype indent on
+syntax on
+]]
+
+vim.opt.mouse = 'a'
+vim.cmd [[
+aunmenu PopUp.-1-
+aunmenu PopUp.-2-
+aunmenu PopUp.How-to\ disable\ mouse
+]]
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+    callback = function()
+        vim.highlight.on_yank()
+    end
+})
+
+local map = function(mode, lhs, rhs)
+    vim.keymap.set(mode, lhs, rhs, {
+        noremap = true,
+        silent = true
+    })
+end
+
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 map('n', '<Leader>e', '<cmd>e $MYVIMRC<CR>')
 map('n', '<Leader>t', '<cmd>tabnew<CR>')
+map('n', '<Leader>b', '<cmd>ls<CR>')
+map('n', '<Leader>q', '<cmd>q<CR>')
+map('n', '<Leader>w', '<cmd>w<CR>')
 map('n', '<Leader>d', '<C-]>')
 
-map('n', '<Leader>h', '<cmd>cfirst<CR>')
-map('n', '<Leader>j', '<cmd>cn<CR>')
-map('n', '<Leader>k', '<cmd>cp<CR>')
-map('n', '<Leader>l', '<cmd>clast<CR>')
-map('n', '<Leader>g', '<cmd>cclose<CR>')
+map('n', '<M-q>', '<cmd>cclose<CR>')
+map('n', '<M-h>', '<cmd>cfirst<CR>')
+map('n', '<M-j>', '<cmd>cn<CR>')
+map('n', '<M-k>', '<cmd>cp<CR>')
+map('n', '<M-l>', '<cmd>clast<CR>')
 
-map('n', '<Leader>p', "<cmd>lua require('telescope.builtin').find_files()<CR>")
-map('n', '<Leader>P',
-"<cmd>lua require('telescope.builtin').find_files({ " ..
-"hidden = true, no_ignore = true, no_ignore_parent = true })<CR>")
+map('n', '<M-L>', '<cmd>vertical resize +4<CR>')
+map('n', '<M-H>', '<cmd>vertical resize -4<CR>')
+map('n', '<M-K>', '<cmd>resize +4<CR>')
+map('n', '<M-J>', '<cmd>resize -4<CR>')
 
-map('n', '<Leader>f', "<cmd>lua require('telescope.builtin').grep_string()<CR>")
-map('n', '<Leader>F',
-"<cmd>lua require('telescope.builtin').grep_string({ " ..
-"additional_args = function() " ..
-    "return {'--hidden','--no-ignore-vcs'} end })<CR>"
-)
+map('n', '<ScrollWheelUp>', '<C-Y>')
+map('n', '<ScrollWheelDown>', '<C-E>')
 
-map('n', '<Leader>s', "<cmd>lua require('telescope.builtin').live_grep()<CR>")
-map('n', '<Leader>S',
-"<cmd>lua require('telescope.builtin').live_grep({ " ..
-"additional_args = function() " ..
-    "return {'--hidden','--no-ignore-vcs'} end })<CR>"
-)
+-- ripgrep
+vim.opt.grepprg = 'rg ' ..
+'--vimgrep ' ..
+'--smart-case ' ..
+'--hidden ' ..
+'--no-ignore-vcs ' ..
+'-g "!.git" ' ..
+'-g "!.svn" ' ..
+'-g "!tags"'
 
-map('n', '<Leader>b', "<cmd>lua require('telescope.builtin').buffers()<CR>")
-map('n', '<Leader>a', "<cmd>lua require('telescope.builtin').tags()<CR>")
+map('n', '<M-f>', function()
+    vim.cmd[[
+    silent grep <cword>
+    copen
+    cc
+    ]]
+end)
 
+map('n', '<M-s>', function()
+    vim.ui.input({ prompt = 'Grep for pattern: ' }, function(pattern)
+        if pattern and pattern ~= '' then
+            local cmd = 'silent grep ' .. vim.fn.escape(pattern, ' \\"')
+            vim.fn.setqflist({})
+            vim.cmd('cclose')
+            vim.cmd(cmd)
+            if #vim.fn.getqflist() > 0 then
+                vim.cmd('copen')
+            else
+                print('No results found.')
+            end
+        end
+    end)
+end)
 
--- LSP
---------------------------------------------------------------------------------
+-- fzf
+local fzf_switches = '--keep-right --bind=tab:toggle+up,btab:toggle+down'
+map('n', '<M-p>', '<cmd>FZF ' .. fzf_switches .. '<CR>')
 
--- local on_attach = function(client, bufnr)
---     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
---     local opts = { noremap = true, silent = true }
--- 
---     vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
---     vim.diagnostic.enable(true, { bufnr = bufnr })
--- 
---     buf_set_keymap('n', 'gd', "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", opts)
---     buf_set_keymap('n', 'gf', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
---     buf_set_keymap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
---     buf_set_keymap('n', 'gH', "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
---     buf_set_keymap('n', 'grn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
---     buf_set_keymap('i', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
---     buf_set_keymap('n', '<Leader>e', "<cmd>lua require('telescope.builtin').diagnostics({ bufnr = 0 })<CR>", opts)
---     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
---     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
--- end
--- 
--- vim.lsp.set_log_level('OFF')
--- 
--- vim.lsp.enable('clangd')
--- vim.lsp.config('clangd', {
---     cmd = {
---         'clangd',
---         '--background-index',
---     },
---     on_attach = on_attach
--- })
+vim.cmd([[
+
+function! s:build_quickfix_list(lines)
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+endfunction
+
+let g:fzf_action = {
+    \ 'alt-q': function('s:build_quickfix_list'),
+    \ 'ctrl-t': 'tab split',
+    \ 'ctrl-s': 'split',
+    \ 'ctrl-v': 'vsplit'
+    \ }
+
+]])

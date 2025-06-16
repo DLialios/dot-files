@@ -3,14 +3,21 @@
 	name = Dimitri Lialios
 [core]
 	editor = nvim
-[core]
-	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
 	autocrlf = input
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
 [diff]
-	tool = meld
+	tool = kdiff3
 [difftool]
 	prompt = false
-[difftool "meld"]
-	cmd = meldconsole "$LOCAL" "$REMOTE"
-[credential]
-	helper = cache
+	keepBackup = false
+	trustExitCode = false
+[difftool "kdiff3"]
+	path = C:/Program Files/KDiff3/bin/kdiff3.exe
+[merge]
+	tool = kdiff3
+[mergetool]
+	prompt = false
+	keepBackup = false
+	keepTemporaries = false
+[mergetool "kdiff3"]
+	path = C:/Program Files/KDiff3/bin/kdiff3.exe
