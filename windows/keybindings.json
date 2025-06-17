@@ -1,0 +1,15 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+d",
+        "command": "vscode-neovim.send",
+        "args": "<c-d>",
+        "when": "editorTextFocus && neovim.init"
+    },
+    {
+        "key": "ctrl+u",
+        "command": "vscode-neovim.send",
+        "args": "<c-u>",
+        "when": "editorTextFocus && neovim.init"
+    },
+]

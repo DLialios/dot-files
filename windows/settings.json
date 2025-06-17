@@ -8,9 +8,12 @@
     "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga'",
     "editor.fontSize": 18,
 
+    "editor.cursorSurroundingLines": 2,
+    "editor.lineNumbers": "relative",
+    "editor.minimap.enabled": false,
+
     "extensions.experimental.affinity": {
-        "vscodevim.vim": 1
+        "asvetliakov.vscode-neovim": 1
     },
-    "vim.smartRelativeLine": true
 
 }
