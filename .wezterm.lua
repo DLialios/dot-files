@@ -5,13 +5,28 @@ local act = wezterm.action
 config.enable_tab_bar = false
 config.hide_mouse_cursor_when_typing = false
 config.disable_default_key_bindings = true
-config.color_scheme = 'Vs Code Dark+ (Gogh)'
+
+config.color_scheme = 'Dracula (Official)'
 config.font = wezterm.font('Monaspace Neon')
-config.harfbuzz_features = { 'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga' }
+config.harfbuzz_features = { 
+    'calt',
+    'ss01',
+    'ss02',
+    'ss03',
+    'ss04',
+    'ss05',
+    'ss06',
+    'ss07',
+    'ss08',
+    'ss09',
+    'liga'
+}
 config.font_size = 16
 config.warn_about_missing_glyphs = false
+
 config.enable_scroll_bar = true
 config.scrollback_lines = 10000
+
 config.initial_cols = 128
 config.initial_rows = 32
 

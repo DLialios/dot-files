@@ -1,12 +1,19 @@
 vim.call('plug#begin')
-vim.fn['plug#']('NMAC427/guess-indent.nvim')
-vim.fn['plug#']('tomasiser/vim-code-dark')
+vim.fn['plug#']('tpope/vim-sleuth')
+vim.fn['plug#']('tpope/vim-surround')
+vim.fn['plug#']('ludovicchabant/vim-gutentags')
+vim.fn['plug#']('junegunn/fzf.vim')
+vim.fn['plug#']('dracula/vim', { ['as'] = 'dracula' })
 vim.call('plug#end')
-require('guess-indent').setup {}
+
+vim.g.gutentags_cache_dir = vim.fn.stdpath('cache') .. '/gutentags'
+if vim.fn.isdirectory(vim.g.gutentags_cache_dir) == 0 then
+    vim.fn.mkdir(vim.g.guntentags_cache_dir, 'p')
+end
 
 vim.opt.background = 'dark'
 vim.opt.termguicolors = true
-vim.cmd('colorscheme codedark')
+vim.cmd('colorscheme dracula')
 
 vim.opt.smarttab = true
 vim.opt.smartindent = true
@@ -93,7 +100,7 @@ map('n', '<Leader>t', '<cmd>tabnew<CR>')
 map('n', '<Leader>b', '<cmd>ls<CR>')
 map('n', '<Leader>q', '<cmd>q<CR>')
 map('n', '<Leader>w', '<cmd>w<CR>')
-map('n', '<Leader>d', '<C-]>')
+map('n', '<Leader>d', 'g<C-]>')
 
 map('n', '<M-q>', '<cmd>cclose<CR>')
 map('n', '<M-h>', '<cmd>cfirst<CR>')
@@ -150,16 +157,16 @@ map('n', '<M-p>', '<cmd>FZF ' .. fzf_switches .. '<CR>')
 vim.cmd([[
 
 function! s:build_quickfix_list(lines)
-    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-    copen
-    cc
+call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+copen
+cc
 endfunction
 
 let g:fzf_action = {
     \ 'alt-q': function('s:build_quickfix_list'),
-    \ 'ctrl-t': 'tab split',
-    \ 'ctrl-s': 'split',
-    \ 'ctrl-v': 'vsplit'
-    \ }
+        \ 'ctrl-t': 'tab split',
+        \ 'ctrl-s': 'split',
+        \ 'ctrl-v': 'vsplit'
+        \ }
 
-]])
+        ]])
