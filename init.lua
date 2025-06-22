@@ -85,6 +85,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end
 })
 
+vim.api.nvim_create_autocmd('TermOpen', {
+    callback = function()
+        vim.opt.number = true
+        vim.opt.relativenumber = true
+    end
+})
+
 local map = function(mode, lhs, rhs)
     vim.keymap.set(mode, lhs, rhs, {
         noremap = true,
@@ -95,12 +102,8 @@ end
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-map('n', '<Leader>e', '<cmd>e $MYVIMRC<CR>')
-map('n', '<Leader>t', '<cmd>tabnew<CR>')
-map('n', '<Leader>b', '<cmd>ls<CR>')
-map('n', '<Leader>q', '<cmd>q<CR>')
-map('n', '<Leader>w', '<cmd>w<CR>')
-map('n', '<Leader>d', 'g<C-]>')
+map('n', '<Leader>?', '<cmd>e $MYVIMRC<CR>')
+map('n', '<M-d>', 'g<C-]>')
 
 map('n', '<M-q>', '<cmd>cclose<CR>')
 map('n', '<M-h>', '<cmd>cfirst<CR>')
@@ -152,7 +155,7 @@ end)
 
 -- fzf
 local fzf_switches = '--keep-right --bind=tab:toggle+up,btab:toggle+down'
-map('n', '<M-p>', '<cmd>FZF ' .. fzf_switches .. '<CR>')
+map('n', '<M-p>', '<cmd>FZF! ' .. fzf_switches .. '<CR>')
 
 vim.cmd([[
 
