@@ -21,3 +21,5 @@
 	keepTemporaries = false
 [mergetool "kdiff3"]
 	path = C:/Program Files/KDiff3/bin/kdiff3.exe
+[svn]
+	rmdir = true
