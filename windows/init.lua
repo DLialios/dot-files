@@ -104,7 +104,9 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 map('n', '<Leader>?', '<cmd>e $MYVIMRC<CR>')
+
 map('n', '<M-d>', 'g<C-]>')
+map('t', '<M-q>', '<C-\\><C-n>')
 
 map('n', '<M-q>', '<cmd>cclose<CR>')
 map('n', '<M-h>', '<cmd>silent cfirst<CR>')
