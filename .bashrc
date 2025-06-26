@@ -1,14 +1,10 @@
 [[ $- != *i* ]] && return
 
-set -o vi
-
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.cargo/bin
-export SUDO_EDITOR=nvim
+export SUDO_EDITOR=vim
 
 eval "$(fzf --bash)"
-
-alias vi='nvim'
 
 alias ls='ls --color=auto'
 alias ll='ls -lah'
