@@ -1,3 +1,6 @@
+""""""""""""""""""""""""
+" Options
+""""""""""""""""""""""""
 set nocompatible
 set nolangremap
 
@@ -27,7 +30,7 @@ set number
 set relativenumber
 
 set colorcolumn=80
-set signcolumn=no
+set signcolumn=yes
 
 set cursorline
 set cursorlineopt=number
@@ -58,6 +61,8 @@ set wildmenu
 set wildoptions=pum
 
 set encoding=utf-8
+set nobackup
+set nowritebackup
 set shortmess=I
 set autoread
 set hidden
@@ -88,25 +93,38 @@ set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --no-ignore-vcs\
 			\ -g\ \"!tags.temp\"
 
 
+""""""""""""""""""""""""
+" Vim-Plug
+""""""""""""""""""""""""
 call plug#begin()
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 colorscheme dracula
 
 
+""""""""""""""""""""""""
+" Functions
+""""""""""""""""""""""""
 function! GrepCurrentWord()
 	let l:query = shellescape(fnameescape(expand('<cword>')))
 	let l:cmd = 'silent grep! ' . l:query
+	call setqflist([])
+	cclose
 	execute l:cmd
-	copen
-	cc
 	redraw!
+	if !empty(getqflist())
+		copen
+		cc
+	else
+		echo 'No results found.'
+	endif
 endfunction
 
 function! GrepPrompt()
@@ -117,10 +135,10 @@ function! GrepPrompt()
 		call setqflist([])
 		cclose
 		execute l:cmd
+		redraw!
 		if !empty(getqflist())
 			copen
 			cc
-			redraw!
 		else
 			echo 'No results found.'
 		endif
@@ -147,8 +165,13 @@ function! FzfDeleteBuffers()
 				\ 'options': '--multi --bind=tab:toggle+up,btab:toggle+down',
 				\ 'sink': {buf_name -> s:delete_buffer(buf_name)}
 				\ }, 1)
-
 	call fzf#run(l:fzf_spec)
+endfunction
+
+function! ShowDocumentation()
+	if CocAction('hasProvider', 'hover')
+		call CocActionAsync('definitionHover')
+	endif
 endfunction
 
 function s:delete_buffer(ls_line)
@@ -175,41 +198,72 @@ function s:build_quickfix_list(lines)
 endfunction
 
 
+""""""""""""""""""""""""
+" Variables
+""""""""""""""""""""""""
 let g:mapleader = ' '
 let g:maplocalleader = ' '
-
-nnoremap <silent> <ScrollWheelUp> <C-Y>
-nnoremap <silent> <ScrollWheelDown> <C-E>
-
-nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-
-nnoremap <silent> <Leader>w :w<CR>
-nnoremap <silent> <Leader>q :q<CR>
-nnoremap <silent> <Leader>t :tabe<CR>
-nnoremap <silent> <Leader>r :term ++curwin<CR>
-nnoremap <silent> <Leader>p :verbose pwd<CR>
-nnoremap <silent> <Leader>? :e $MYVIMRC<CR>
-
-nnoremap <silent> <M-q> :cclose<CR>
-tnoremap <silent> <M-q> <C-\><C-n>
-nnoremap <silent> <M-d> g<C-]>
-nnoremap <silent> <M-L> :vertical resize +4<CR>
-nnoremap <silent> <M-H> :vertical resize -4<CR>
-nnoremap <silent> <M-K> :resize +4<CR>
-nnoremap <silent> <M-J> :resize -4<CR>
-nnoremap <silent> <M-h> :silent cfirst<CR>
-nnoremap <silent> <M-j> :silent cn<CR>
-nnoremap <silent> <M-k> :silent cp<CR>
-nnoremap <silent> <M-l> :silent clast<CR>
-nnoremap <silent> <M-f> :call GrepCurrentWord()<CR>
-nnoremap <silent> <M-s> :call GrepPrompt()<CR>
-nnoremap <silent> <M-o> :call FzfChangeDir()<CR>
-nnoremap <silent> <Leader>b :call FzfDeleteBuffers()<CR>
 
 let g:fzf_action = { 'alt-q': function('s:build_quickfix_list'),
 			\ 'ctrl-t': 'tab split',
 			\ 'ctrl-s': 'split',
 			\ 'ctrl-v': 'vsplit'
 			\ }
-let s:fzf_switches = '--keep-right --bind=tab:toggle+up,btab:toggle+down'
-execute 'nnoremap <silent> <M-p> :FZF! ' . s:fzf_switches . '<CR>'
+let g:fzf_switches = '--keep-right --bind=tab:toggle+up,btab:toggle+down'
+
+let g:coc_start_at_startup = v:false
+
+
+""""""""""""""""""""""""
+" Mappings
+""""""""""""""""""""""""
+nnoremap <silent> <ScrollWheelUp> <C-Y>
+nnoremap <silent> <ScrollWheelDown> <C-E>
+
+nnoremap <silent> <Leader>t :tabnew<CR>
+nnoremap <silent> <Leader>r :term ++curwin<CR>
+
+nnoremap <silent> <Leader>q :q<CR>
+nnoremap <silent> <M-q> :cclose<CR>
+tnoremap <silent> <M-q> <C-\><C-n>
+
+nnoremap <silent> <Leader>w :w<CR>
+nnoremap <silent> <M-d> g<C-]>
+nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+nnoremap <silent> <Leader>p :verbose pwd<CR>
+nnoremap <silent> <Leader>? :e $MYVIMRC<CR>
+
+nnoremap <silent> <M-L> :vertical resize +4<CR>
+nnoremap <silent> <M-H> :vertical resize -4<CR>
+nnoremap <silent> <M-K> :resize +4<CR>
+nnoremap <silent> <M-J> :resize -4<CR>
+
+nnoremap <silent> <M-h> :silent cfirst<CR>
+nnoremap <silent> <M-j> :silent cn<CR>
+nnoremap <silent> <M-k> :silent cp<CR>
+nnoremap <silent> <M-l> :silent clast<CR>
+
+nnoremap <silent> <M-f> :call GrepCurrentWord()<CR>
+nnoremap <silent> <M-s> :call GrepPrompt()<CR>
+nnoremap <silent> <M-o> :call FzfChangeDir()<CR>
+nnoremap <silent> <Leader>b :call FzfDeleteBuffers()<CR>
+execute 'nnoremap <silent> <M-p> :FZF! ' . g:fzf_switches . '<CR>'
+
+nmap <silent> [e <Plug>(coc-diagnostic-prev)
+nmap <silent> ]e <Plug>(coc-diagnostic-next)
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gf <Plug>(coc-declaration)
+nmap <silent> gH <Plug>(coc-references)
+nnoremap <silent> gh :call ShowDocumentation()<CR>
+nmap <silent> grn <Plug>(coc-rename)
+
+inoremap <silent><expr> <C-Space> coc#refresh()
+
+nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+
