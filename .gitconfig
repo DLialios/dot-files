@@ -1,9 +1,27 @@
 [user]
 	email = lialios.dimitri@gmail.com
 	name = Dimitri Lialios
+[alias]
+	s = status
+	d = difftool --dir-diff
+	g = log --graph --oneline --all
 [core]
 	editor = vim
 [diff]
-	tool = vimdiff
+	tool = kdiff3
+[difftool]
+	prompt = false
+	keepBackup = false
+	trustExitCode = false
+[difftool "kdiff3"]
+	path = /usr/bin/kdiff3
 [merge]
-	tool = vimdiff
+	tool = kdiff3
+[mergetool]
+	prompt = false
+	keepBackup = false
+	keepTemporaries = false
+[mergetool "kdiff3"]
+	path = /usr/bin/kdiff3
+[svn]
+	rmdir = true

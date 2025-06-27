@@ -79,6 +79,7 @@ set complete-=i
 set nrformats-=octal 
 set formatoptions+=j
 set viminfo^=!
+set runtimepath+=C:\fzf
 
 set grepformat=%f:%l:%c:%m
 set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --no-ignore-vcs\
@@ -145,7 +146,7 @@ function! GrepPrompt()
 endfunction
 
 function! FzfChangeDir()
-	let l:finder_cmd = 'fd --type d --hidden --no-ignore . /'
+	let l:finder_cmd = 'fd --type d --hidden --no-ignore . C:\'
 	let l:fzf_spec = fzf#wrap('', {
 				\ 'source': l:finder_cmd,
 				\ 'options': '--keep-right',
