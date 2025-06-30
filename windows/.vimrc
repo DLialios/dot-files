@@ -28,9 +28,10 @@ set sidescroll=1
 
 set number
 set relativenumber
+autocmd TermOpen * setlocal number relativenumber
 
 set colorcolumn=80
-set signcolumn=yes
+set signcolumn=no
 
 set cursorline
 set cursorlineopt=number
@@ -63,6 +64,7 @@ set wildoptions=pum
 set encoding=utf-8
 set nobackup
 set nowritebackup
+
 set shortmess=I
 set autoread
 set hidden
@@ -102,11 +104,10 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'cocopon/iceberg.vim'
 call plug#end()
 
-colorscheme dracula
+colorscheme iceberg
 
 
 """"""""""""""""""""""""
@@ -204,7 +205,7 @@ endfunction
 let g:mapleader = ' '
 let g:maplocalleader = ' '
 
-let g:fzf_action = { 'alt-q': function('s:build_quickfix_list'),
+let g:fzf_action = { 'ctrl-q': function('s:build_quickfix_list'),
 			\ 'ctrl-t': 'tab split',
 			\ 'ctrl-s': 'split',
 			\ 'ctrl-v': 'vsplit'
@@ -221,7 +222,7 @@ nnoremap <silent> <ScrollWheelUp> <C-Y>
 nnoremap <silent> <ScrollWheelDown> <C-E>
 
 nnoremap <silent> <Leader>t :tabnew<CR>
-nnoremap <silent> <Leader>r :term ++curwin<CR>
+nnoremap <silent> <Leader>r :term<CR>
 
 nnoremap <silent> <Leader>q :q<CR>
 nnoremap <silent> <M-q> :cclose<CR>
@@ -248,22 +249,4 @@ nnoremap <silent> <M-s> :call GrepPrompt()<CR>
 nnoremap <silent> <M-o> :call FzfChangeDir()<CR>
 nnoremap <silent> <Leader>b :call FzfDeleteBuffers()<CR>
 execute 'nnoremap <silent> <M-p> :FZF! ' . g:fzf_switches . '<CR>'
-
-nmap <silent> [e <Plug>(coc-diagnostic-prev)
-nmap <silent> ]e <Plug>(coc-diagnostic-next)
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gf <Plug>(coc-declaration)
-nmap <silent> gH <Plug>(coc-references)
-nnoremap <silent> gh :call ShowDocumentation()<CR>
-nmap <silent> grn <Plug>(coc-rename)
-
-inoremap <silent><expr> <C-Space> coc#refresh()
-
-nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 

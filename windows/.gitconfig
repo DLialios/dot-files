@@ -6,7 +6,7 @@
 	d = difftool --dir-diff
 	g = log --graph --oneline --all
 [core]
-	editor = vim
+	editor = nvim
 	autocrlf = input
 	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
 [diff]
