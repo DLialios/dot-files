@@ -65,6 +65,11 @@ set encoding=utf-8
 set nobackup
 set nowritebackup
 
+set mouse=a
+aunmenu PopUp.-1-
+aunmenu PopUp.-2-
+aunmenu PopUp.How-to\ disable\ mouse
+
 set shortmess=I
 set autoread
 set hidden
@@ -72,7 +77,6 @@ set display=truncate
 set fileformats=unix,dos
 set history=1000
 set tabpagemax=50
-set mouse=a
 
 set sessionoptions-=options
 set viewoptions-=options
@@ -117,12 +121,12 @@ function! GrepCurrentWord()
 	let l:query = shellescape(fnameescape(expand('<cword>')))
 	let l:cmd = 'silent grep! ' . l:query
 	call setqflist([])
-	cclose
+	silent cclose
 	execute l:cmd
 	redraw!
 	if !empty(getqflist())
-		copen
-		cc
+		silent copen
+		silent cc
 	else
 		echo 'No results found.'
 	endif
@@ -134,12 +138,12 @@ function! GrepPrompt()
 		let l:query = shellescape(fnameescape(l:pattern))
 		let l:cmd = 'silent grep! ' . l:query
 		call setqflist([])
-		cclose
+		silent cclose
 		execute l:cmd
 		redraw!
 		if !empty(getqflist())
-			copen
-			cc
+			silent copen
+			silent cc
 		else
 			echo 'No results found.'
 		endif
@@ -194,8 +198,8 @@ endfunction
 
 function s:build_quickfix_list(lines)
 	call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-	copen
-	cc
+	silent copen
+	silent cc
 endfunction
 
 
@@ -211,8 +215,6 @@ let g:fzf_action = { 'ctrl-q': function('s:build_quickfix_list'),
 			\ 'ctrl-v': 'vsplit'
 			\ }
 let g:fzf_switches = '--keep-right --bind=tab:toggle+up,btab:toggle+down'
-
-let g:coc_start_at_startup = v:false
 
 
 """"""""""""""""""""""""
