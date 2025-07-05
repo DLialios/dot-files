@@ -25,8 +25,11 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'cocopon/iceberg.vim'
+Plug 'nvim-lua/plenary.nvim'
 call plug#end()
+
 colorscheme iceberg
+lua require('chat')
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! GrepCurrentWord()
@@ -213,6 +216,7 @@ augroup END
 nnoremap <silent> <Leader>t :tabnew<CR>
 nnoremap <silent> <Leader>r :term<CR>
 nnoremap <silent> <Leader>q :q<CR>
+nnoremap <silent> <Leader>a :RunLLM<CR>
 nnoremap <silent> <M-q> :cclose<CR>
 tnoremap <silent> <M-q> <C-\><C-n>
 nnoremap <silent> <Leader>w :w<CR>
