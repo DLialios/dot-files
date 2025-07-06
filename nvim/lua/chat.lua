@@ -1,5 +1,4 @@
 local curl = require('plenary.curl')
-local M = {}
 
 local function get_llm_completion(messages, on_delta, on_complete)
     local completions = curl.post(
@@ -41,14 +40,14 @@ local function parse_markdown()
 
     local block = nil
     for _, line in ipairs(lines) do
-        if line:match("^#%s+(.*)$") then
-            local role = line:match("^#%s+(.*)$")
+        if line:match('^#%s+(.*)$') then
+            local role = line:match('^#%s+(.*)$')
             if (block) then
                 table.insert(ret, block)
             end
             block = {
                 role = string.lower(role),
-                content = ""
+                content = ''
             }
         elseif block then
             block.content = block.content .. line .. '\n'
@@ -61,7 +60,6 @@ local function parse_markdown()
 
     return ret
 end
-
 
 local function send_buffer()
     local messages = parse_markdown()
@@ -111,6 +109,7 @@ local function send_buffer()
     get_llm_completion(messages, on_delta, on_complete)
 end
 
+local M = {}
 function M.LLMChat()
     send_buffer()
 end
