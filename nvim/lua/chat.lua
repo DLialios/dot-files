@@ -109,11 +109,45 @@ local function send_buffer()
     get_llm_completion(messages, on_delta, on_complete)
 end
 
+local function open_chat_buffer()
+    local system_prompt = 
+    'Output only plaintext.\n\z
+    Do not output markdown.\n\z
+    Do not output emojis.\n\z
+    Your responses are being read from a terminal emulator.\n\z
+    Attempt to make each line of your output not exceed 80 characters.\n\z
+    You are a highly-skilled software and embedded systems engineer.\n\z
+    Do not mention that you are a software and embedded systems engineer.\n\z
+    Provide clear and concise responses to any queries that follow.\n\z
+    Do not restate questions. Be professional.'
+
+    local buffer = vim.api.nvim_create_buf(true, false)
+    vim.api.nvim_set_option_value('filetype', 'markdown', {
+        scope = 'local',
+        buf = buffer
+    })
+    local lines = vim.split(system_prompt, '\n')
+    table.insert(lines, 1, '# system')
+    table.insert(lines, '')
+    table.insert(lines, '# user')
+    table.insert(lines, '')
+    vim.api.nvim_buf_set_lines(buffer, 0, -1, true, lines)
+    vim.api.nvim_set_current_buf(buffer)
+    local new_cursor_pos = vim.api.nvim_buf_line_count(buffer)
+    vim.api.nvim_win_set_cursor(0, { new_cursor_pos, 0 })
+end
+
 local M = {}
+
+function M.LLMChatOpen()
+    open_chat_buffer()
+end
+
 function M.LLMChat()
     send_buffer()
 end
 
+vim.api.nvim_command('command! LLMChatOpen lua require("chat").LLMChatOpen()')
 vim.api.nvim_command('command! LLMChat lua require("chat").LLMChat()')
 
 return M

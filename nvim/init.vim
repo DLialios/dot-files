@@ -219,6 +219,8 @@ augroup END
 nnoremap <silent> <Leader>t :tabnew<CR>
 nnoremap <silent> <Leader>r :term<CR>
 nnoremap <silent> <Leader>q :q<CR>
+nnoremap <silent> <Leader>Q :q!<CR>
+nnoremap <silent> <Leader>e :LLMChatOpen<CR>
 nnoremap <silent> <Leader>a :LLMChat<CR>
 nnoremap <silent> <M-q> :cclose<CR>
 tnoremap <silent> <M-q> <C-\><C-n>
