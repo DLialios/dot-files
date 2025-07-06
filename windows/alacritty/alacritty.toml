@@ -1,3 +1,6 @@
+[general]
+working_directory = "C:\\Users\\dimitri\\Desktop"
+
 [window]
 dimensions = { columns = 140, lines = 30 }
 
