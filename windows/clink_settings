@@ -1,0 +1,5 @@
+clink.logo = none
+clink.default_bindings = bash
+cmd.ctrld_exits = True
+autosuggest.enable = False
+clink.colorize_input = False

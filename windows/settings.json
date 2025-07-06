@@ -4,13 +4,33 @@
 
     "editor.fontFamily": "'Monaspace Neon', monospace",
     "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga'",
-    "editor.fontSize": 18,
 
     "editor.rulers": [ 80 ],
     "editor.cursorSurroundingLines": 2,
     "editor.minimap.enabled": false,
 
     "vim.smartRelativeLine": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "ctrl+p"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ],
+            "silent": true
+        },
+        {
+            "before": [
+                "g",
+                "H"
+            ],
+            "commands": [
+                "editor.action.goToReferences"
+            ]
+        }
+    ],
+
     "extensions.experimental.affinity": {
         "vscodevim.vim": 1
     },
