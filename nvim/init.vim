@@ -56,6 +56,7 @@ function! s:perform_grep(query)
                 \ ]
     let l:rg_globs = [
                 \ '!*.lst',
+                \ '!*.cod',
                 \ '!*.map',
                 \ '!.git',
                 \ '!.svn',
@@ -88,13 +89,21 @@ function! s:perform_grep(query)
     endtry
 endfunction
 
-function! FzfChangeDir()
+function! FzfChangeDir(search_root)
     if has('win32')
-        let l:root_dir = 'C:\'
+        if !a:search_root
+            let l:search_dir = 'C:\Users\dimitri\Desktop'
+        else
+            let l:search_dir = 'C:\'
+        endif
     else
-        let l:root_dir = '/'
+        if !a:search_root
+            let l:search_dir = '/home/dimitri'
+        else
+            let l:search_dir = '/'
+        endif
     endif
-    let l:finder_cmd = printf('fd --type d --hidden --no-ignore . %s', l:root_dir)
+    let l:finder_cmd = printf('fd --type d --hidden --no-ignore . %s', l:search_dir)
     let l:fzf_spec = fzf#wrap('', {
                 \ 'source': l:finder_cmd,
                 \ 'options': '--keep-right',
@@ -239,7 +248,8 @@ nnoremap <silent> <M-k> :silent! cp<CR>
 nnoremap <silent> <M-l> :silent clast<CR>
 nnoremap <silent> <M-f> :call GrepCurrentWord()<CR>
 nnoremap <silent> <M-s> :call GrepPrompt()<CR>
-nnoremap <silent> <M-o> :call FzfChangeDir()<CR>
+nnoremap <silent> <M-o> :call FzfChangeDir(v:false)<CR>
+nnoremap <silent> <M-O> :call FzfChangeDir(v:true)<CR>
 nnoremap <silent> <Leader>b :call FzfDeleteBuffers()<CR>
 nnoremap <silent> <M-p> :FZF!
             \ --keep-right
