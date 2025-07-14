@@ -39,9 +39,21 @@ local function parse_markdown()
     local lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
 
     local block = nil
+    local patterns = { 
+        '^>>%s+(system)$',
+        '^>>%s+(user)$',
+        '^>>%s+(assistant)$'
+    }
     for _, line in ipairs(lines) do
-        if line:match('^#%s+(.*)$') then
-            local role = line:match('^#%s+(.*)$')
+        local role = nil
+        for _, pat in ipairs(patterns) do
+            role = line:match(pat)
+            if role then
+                break
+            end
+        end
+
+        if role then
             if (block) then
                 table.insert(ret, block)
             end
@@ -65,7 +77,7 @@ local function send_buffer()
     local messages = parse_markdown()
 
     if not next(messages) then
-        print('Buffer has no user/assistant markdown headers')
+        print('Buffer has no user/assistant delimiters')
         return
     end
 
@@ -74,7 +86,7 @@ local function send_buffer()
 
     vim.api.nvim_buf_set_lines(buffer, curline, curline, false, {
         '',
-        '# assistant',
+        '>> assistant',
         'Connecting to OpenRouter...'
     })
     curline = vim.api.nvim_buf_line_count(buffer) - 1
@@ -100,7 +112,7 @@ local function send_buffer()
         local new_text = vim.split(curline_content, '\n')
 
         table.insert(new_text, "")
-        table.insert(new_text, "# user")
+        table.insert(new_text, ">> user")
         table.insert(new_text, "")
 
         vim.api.nvim_buf_set_lines(buffer, curline, curline + 1, false, new_text)
@@ -111,25 +123,17 @@ end
 
 local function open_chat_buffer()
     local system_prompt = 
-    'Output only plaintext.\n\z
-    Do not output markdown.\n\z
-    Do not output emojis.\n\z
-    Your responses are being read from a terminal emulator.\n\z
-    Attempt to make each line of your output not exceed 80 characters.\n\z
-    You are a highly-skilled software and embedded systems engineer.\n\z
-    Do not mention that you are a software and embedded systems engineer.\n\z
-    Provide clear and concise responses to any queries that follow.\n\z
-    Do not restate questions. Be professional.'
+    'You are a highly-skilled software and embedded systems engineer.\n\z
+    Be aware that your responses are being read from a terminal emulator.\n\z
+    The terminal emulator can only show ASCII characters with no formatting.\n\z
+    The terminal emulator has a column width of 80.\n\z
+    Make your tone concise and professional.'
 
     local buffer = vim.api.nvim_create_buf(true, false)
-    vim.api.nvim_set_option_value('filetype', 'markdown', {
-        scope = 'local',
-        buf = buffer
-    })
     local lines = vim.split(system_prompt, '\n')
-    table.insert(lines, 1, '# system')
+    table.insert(lines, 1, '>> system')
     table.insert(lines, '')
-    table.insert(lines, '# user')
+    table.insert(lines, '>> user')
     table.insert(lines, '')
     vim.api.nvim_buf_set_lines(buffer, 0, -1, true, lines)
     vim.api.nvim_set_current_buf(buffer)

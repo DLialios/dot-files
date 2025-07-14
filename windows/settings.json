@@ -1,14 +1,13 @@
 {
     "workbench.startupEditor": "none",
     "workbench.editor.empty.hint": "hidden",
-
-    "editor.fontFamily": "'Monaspace Neon', monospace",
-    "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga'",
-
-    "editor.rulers": [ 80 ],
+    "editor.fontFamily": "Iosevka Fixed",
+    "editor.fontSize": 18,
+    "editor.rulers": [
+        80
+    ],
     "editor.cursorSurroundingLines": 2,
     "editor.minimap.enabled": false,
-
     "vim.smartRelativeLine": true,
     "vim.normalModeKeyBindingsNonRecursive": [
         {
@@ -30,7 +29,6 @@
             ]
         }
     ],
-
     "extensions.experimental.affinity": {
         "vscodevim.vim": 1
     },
