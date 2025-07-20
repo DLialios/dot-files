@@ -27,11 +27,10 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'cocopon/iceberg.vim'
 Plug 'nvim-lua/plenary.nvim'
 call plug#end()
 
-colorscheme iceberg
+colorscheme habamax
 lua require('chat')
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
