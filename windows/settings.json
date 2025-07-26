@@ -2,34 +2,17 @@
     "workbench.startupEditor": "none",
     "workbench.editor.empty.hint": "hidden",
     "editor.fontFamily": "Iosevka Fixed",
-    "editor.fontSize": 18,
+    "editor.fontSize": 16,
     "editor.rulers": [
         80
     ],
-    "editor.cursorSurroundingLines": 2,
     "editor.minimap.enabled": false,
-    "vim.smartRelativeLine": true,
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "ctrl+p"
-            ],
-            "commands": [
-                "workbench.action.quickOpen"
-            ],
-            "silent": true
-        },
-        {
-            "before": [
-                "g",
-                "H"
-            ],
-            "commands": [
-                "editor.action.goToReferences"
-            ]
-        }
-    ],
+    "editor.lineNumbers": "relative",
+    "editor.stickyScroll.enabled": false,
+    "vscode-neovim.revealCursorScrollLine": true,
     "extensions.experimental.affinity": {
-        "vscodevim.vim": 1
+        "asvetliakov.vscode-neovim": 1
     },
+    "remote.autoForwardPortsSource": "hybrid",
+    "platformio-ide.disablePIOHomeStartup": true,
 }

@@ -10,7 +10,7 @@ local function get_llm_completion(messages, on_delta, on_complete)
             },
             body = vim.fn.json_encode(
                 {
-                    model = 'google/gemini-2.5-flash',
+                    model = 'switchpoint/router',
                     messages = messages,
                     stream = true
                 }
