@@ -1,6 +1,6 @@
 local curl = require('plenary.curl')
 
-local function get_llm_completion(messages, on_delta, on_complete)
+local function get_llm_completion(model, messages, on_delta, on_complete)
     local completions = curl.post(
         'https://openrouter.ai/api/v1/chat/completions',
         {
@@ -10,7 +10,7 @@ local function get_llm_completion(messages, on_delta, on_complete)
             },
             body = vim.fn.json_encode(
                 {
-                    model = 'google/gemini-2.5-flash',
+                    model = model,
                     messages = messages,
                     stream = true
                 }
@@ -33,7 +33,7 @@ local function get_llm_completion(messages, on_delta, on_complete)
     )
 end
 
-local function parse_markdown()
+local function parse_dialogue()
     local ret = {}
     local buffer = vim.api.nvim_get_current_buf()
     local lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
@@ -73,11 +73,31 @@ local function parse_markdown()
     return ret
 end
 
+local function parse_model()
+    local ret = nil
+    local buffer = vim.api.nvim_get_current_buf()
+    local line = vim.api.nvim_buf_get_lines(buffer, 0, 1, false)[1]
+    local pattern = '^>>>>%s+(.+)$'
+
+    ret = line:match(pattern)
+    if ret then
+        ret = string.lower(ret)
+    end
+
+    return ret
+end
+
 local function send_buffer()
-    local messages = parse_markdown()
+    local messages = parse_dialogue()
+    local model = parse_model()
 
     if not next(messages) then
         print('Buffer has no user/assistant delimiters')
+        return
+    end
+
+    if not model then
+        print('Buffer has no model specifier')
         return
     end
 
@@ -87,7 +107,7 @@ local function send_buffer()
     vim.api.nvim_buf_set_lines(buffer, curline, curline, false, {
         '',
         '>> assistant',
-        'Connecting to OpenRouter...'
+        'Please wait...'
     })
     curline = vim.api.nvim_buf_line_count(buffer) - 1
 
@@ -118,28 +138,34 @@ local function send_buffer()
         vim.api.nvim_buf_set_lines(buffer, curline, curline + 1, false, new_text)
     end
 
-    get_llm_completion(messages, on_delta, on_complete)
+    get_llm_completion(model, messages, on_delta, on_complete)
 end
 
 local function open_chat_buffer()
     local system_prompt = 
-    'You are a highly-skilled software and embedded systems engineer.\n\z
-    Be aware that your responses are being read from a terminal emulator.\n\z
-    The terminal emulator can only show ASCII characters with no formatting.\n\z
-    The terminal emulator has a column width of 80.\n\z
-    Make your tone concise and professional.'
+    'You are an assistant tasked with answering any queries.'
 
     local buffer = vim.api.nvim_create_buf(true, false)
+    vim.api.nvim_set_option_value('filetype', 'markdown', {buf = buffer})
+
     local lines = vim.split(system_prompt, '\n')
     table.insert(lines, 1, '>> system')
+    table.insert(lines, 1, '')
+    table.insert(lines, 1, '>>>> qwen/qwen3-235b-a22b-thinking-2507')
     table.insert(lines, '')
     table.insert(lines, '>> user')
     table.insert(lines, '')
     vim.api.nvim_buf_set_lines(buffer, 0, -1, true, lines)
+
     vim.api.nvim_set_current_buf(buffer)
     local new_cursor_pos = vim.api.nvim_buf_line_count(buffer)
     vim.api.nvim_win_set_cursor(0, { new_cursor_pos, 0 })
 end
+
+vim.api.nvim_command('command! LLMChatOpen lua require("plugin.chat").LLMChatOpen()')
+vim.api.nvim_command('command! LLMChat lua require("plugin.chat").LLMChat()')
+vim.api.nvim_command('command! LLMChatToggleWinOpts lua require("plugin.chat").LLMChatToggleWinOpts()')
+
 
 local M = {}
 
@@ -151,7 +177,19 @@ function M.LLMChat()
     send_buffer()
 end
 
-vim.api.nvim_command('command! LLMChatOpen lua require("chat").LLMChatOpen()')
-vim.api.nvim_command('command! LLMChat lua require("chat").LLMChat()')
+function M.LLMChatToggleWinOpts()
+    local colorcolumn = vim.api.nvim_get_option_value('colorcolumn', {})
+    local linebreak = vim.api.nvim_get_option_value('linebreak', {})
+    local breakindent = vim.api.nvim_get_option_value('breakindent', {})
+
+    if colorcolumn == '' then
+        vim.api.nvim_set_option_value('colorcolumn', '80', {})
+    else
+        vim.api.nvim_set_option_value('colorcolumn', '', {})
+    end
+    vim.api.nvim_set_option_value('linebreak', not linebreak, {})
+    vim.api.nvim_set_option_value('breakindent', not breakindent, {})
+
+end
 
 return M

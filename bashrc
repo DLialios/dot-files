@@ -1,4 +1,5 @@
 export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/go/bin
 export EDITOR=nvim
 export SUDO_EDITOR=nvim
 
